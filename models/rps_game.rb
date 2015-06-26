@@ -20,6 +20,7 @@ class RPSGame
     VALID_MOVES.sample
   end
 
+  # checking for outcome
   def won?
    (winningscenario1 || winningscenario2 || winningscenario3) ? true : false
   end
@@ -28,11 +29,21 @@ class RPSGame
     self.user_move == self.computer_play ? true : false
   end
 
-  def lost?
-    # if not won OR tied => lost
-    !(won? || tied?)? true : false
+  def lost? # if not won OR tied => lost
+    !(won? || tied?) ? true : false
   end
 
+  def outcome
+    if won?
+      "you won"
+    elsif lost?
+      "you lost"
+    else 
+      "you tied"
+    end   
+  end
+
+  # winning scenarios
   def winningscenario1
     self.user_move == :rock && self.computer_play == :scissors
   end
