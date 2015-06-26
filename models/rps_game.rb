@@ -1,7 +1,7 @@
 class RPSGame
 
   attr_accessor :user_move
-  MOVES = [:rock, :paper, :scissors]
+  VALID_MOVES = [:rock, :paper, :scissors]
 
   def initialize(user_move)
     @user_move = user_move
@@ -13,11 +13,11 @@ class RPSGame
   end
 
   def self.valid_play?(user_move)
-    MOVES.include?(user_move) ? true : false
+    VALID_MOVES.include?(user_move) ? true : false
   end
 
   def computer_play
-    [:rock, :paper, :scissors].sample
+    VALID_MOVES.sample
   end
 
   def won?
@@ -29,7 +29,6 @@ class RPSGame
   end
 
   def lost?
-    # ((self.user_move == :rock && self.computer_play == :scissors) || (self.user_move == :scissors && self.computer_play == :paper) || (self.user_move == :paper && self.computer_play == :rock) || tied?) ? false : true
     # if not won OR tied => lost
     !(won? || tied?)? true : false
   end
