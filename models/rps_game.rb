@@ -1,32 +1,30 @@
 class RPSGame
+  attr_accessor :computer_play, :user_play
+  USER_CHOICES = [:rock, :paper, :scissors]
+  VICTORY_HASH = {:rock => :scissors, :scissors => :paper, :paper => :rock}
 
-  attr_accessor :user_move
-  VALID_MOVES = [:rock, :paper, :scissors]
-
-  def initialize(user_move)
-    @user_move = user_move
-    raise PlayTypeError unless self.class.valid_play?(user_move)
+  def initialize(user_play)
+    @user_play = user_play
+    raise PlayTypeError unless self.class.valid_play?(user_play)
   end
 
-  # inherits Standard Error properties
   class PlayTypeError < StandardError
   end
 
-  def self.valid_play?(user_move)
-    VALID_MOVES.include?(user_move) ? true : false
+  def self.valid_play?(user_play)
+    USER_CHOICES.include?(user_play) ? true : false
   end
 
-  def computer_play
-    VALID_MOVES.sample
+  def computer_play #rspec tests for computer_play specifically
+    USER_CHOICES.sample
   end
 
-  # checking for outcome
   def won?
-   (winningscenario1 || winningscenario2 || winningscenario3) ? true : false
+    VICTORY_HASH[@user_play] == computer_play
   end
 
   def tied?
-    self.user_move == self.computer_play ? true : false
+    self.user_play == self.computer_play ? true : false
   end
 
   def lost? # if not won OR tied => lost
@@ -36,24 +34,10 @@ class RPSGame
   def outcome
     if won?
       "you won"
-    elsif lost?
-      "you lost"
-    else 
+    elsif tied?
       "you tied"
+    else 
+      "you lost"
     end   
   end
-
-  # winning scenarios
-  def winningscenario1
-    self.user_move == :rock && self.computer_play == :scissors
-  end
-
-  def winningscenario2
-    self.user_move == :scissors && self.computer_play == :paper
-  end
-
-  def winningscenario3
-    self.user_move == :paper && self.computer_play == :rock
-  end
-
 end # end class
